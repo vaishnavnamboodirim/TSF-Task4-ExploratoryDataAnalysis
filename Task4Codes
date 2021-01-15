@@ -1,0 +1,82 @@
+Exploratory Data Analysis - Terrorism (Level - Intermediate)
+
+● Perform ‘Exploratory Data Analysis’ on dataset ‘Global Terrorism’
+● As a security/defense analyst, try to find out the hot zone of terrorism.
+● What all security issues and insights you can derive by EDA?
+
+options(repos = c(CRAN = 'https://cloud.r-project.org'))
+install.packages('dplyr', repos = 'https://cloud.r-project.org')
+install.packages("readxl")
+library(readxl)
+install.packages("thePackage")
+install.packages("tidyverse")
+install.packages("dplyr")
+library(tidyverse)
+library(dplyr)
+rm(list = ls())
+library(data.table)
+library(tibble)
+library(ggplot2)
+library(tidyr)
+library(ggplot2)
+setwd("C:/Users/acer/Desktop/DataAnalytics")
+getwd()
+data <- fread("globalterrorismdb_0718dist.csv") 
+data %>% group_by(iyear,region_txt) %>% summarise(n=n())
+ggplot(data,aes(x=region_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+
+data %>% filter(iyear=="1970") %>%group_by(iyear,region_txt) %>% summarise(n=n())
+ggplot(data,aes(x=region_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% filter(iyear>="1970" & iyear <= "1980") %>%group_by(region_txt) %>% summarise(n=n())
+ggplot(data_,aes(x=region_txt)) + geom_bar() +  theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+install.packages("janitor")
+library(janitor)
+
+data_123<-data %>% filter(iyear>="1970" & iyear <= "2000") %>%group_by(iyear,region_txt) %>% summarise(n=n())
+ggplot(data_123,aes(x=region_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% filter(iyear>="2001" & iyear <= "2017") %>%group_by(iyear,region_txt) %>% summarise(n=n())
+ggplot(data,aes(x=region_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% filter(iyear == "2017") %>%group_by(iyear,region_txt) %>% summarise(n=n())
+ggplot(data,aes(x=region_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% filter(region_txt == "Middle East & North Africa") %>%group_by(country_txt) %>% summarise(n=n())
+data %>% order(n)
+ggplot(data,aes(x=country_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% filter(region_txt == "Middle East & North Africa") %>%group_by(country_txt) %>% summarise(n=n())
+data %>% select(iyear,nkill) %>% na.omit()
+p<-ggplot(data, aes(x=iyear,y=nkill,group=1))+ geom_line() + geom_point()
+p
+
+data %>% select(attacktype1_txt) %>% group_by(attacktype1_txt) %>% na.omit() %>% summarise(n=n())
+ggplot(data,aes(x=attacktype1_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% select(attacktype2_txt) %>% group_by(attacktype2_txt) %>% na.omit() %>% summarise(n=n())
+head(data)
+ggplot(data,aes(x=attacktype2_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+
+data %>% select(targtype1_txt) %>% group_by(targtype1_txt) %>% na.omit() %>% summarise(n=n())
+ggplot(data,aes(x=targtype1_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% select(weaptype1_txt) %>% group_by(weaptype1_txt) %>% na.omit() %>% summarise(n=n())
+ggplot(data,aes(weaptype1_txt)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+data %>% select(dbsource) %>% group_by(dbsource) %>% na.omit() %>% summarise(n=n())
+ggplot(data,aes(x=dbsource)) + geom_bar() + theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+d<-data %>% select(gname) %>% group_by(gname) %>% na.omit() %>% summarise(n=n()) %>% arrange(desc(n))
+K<-d %>%filter(!str_detect(gname,'Unknown'))
+O<-K %>% top_n(20)
+ggplot(O, aes(x=gname,y=n,group=1))+ geom_line()+ geom_point() +  theme(axis.text.x=element_text(angle = 90,hjust = 1,vjust = 0.5))
+
+
+p<-data %>% filter(region_txt == "Middle East & North Africa") %>%group_by(country_txt) %>% summarise(n=n()) %>% arrange(desc(n))
+p$n <- as.numeric(p$n)
+head(p)
+barplot(height = p$n, names = p$country_txt,col="#69b3a2",las=2)
+
